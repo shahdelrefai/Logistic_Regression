@@ -26,12 +26,12 @@ class LogisticRegression():
         return -np.mean(y * np.log(y_pred + 1e-9) + (1-y) * np.log(1 - y_pred + 1e-9))
 
     def compute_gradients(self, x, y, y_pred):
-        # derivative of binary cross entropy
-        gradient_b = np.mean(y_pred - y)
-        gradients_w = np.matmul(x.transpose(), y_pred - y)
-        gradients_w = np.array([np.mean(grad) for grad in gradients_w])
-
-        return gradients_w, gradient_b
+        dZ = y_pred - y
+        db = np.mean(dZ)
+        dW = np.matmul(x.transpose(), dZ)
+        dW = np.array([np.mean(weight) for weight in dW])
+        
+        return dW, db
 
     def update_model_parameters(self, error_w, error_b):
         self.weights = self.weights - self.learqing_rate * error_w
